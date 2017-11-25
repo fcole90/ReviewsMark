@@ -1,4 +1,4 @@
-from tldr.word_embedding import word_to_vect as w2v
+from tldr.word_embedding_fabio import word_to_vec as w2v
 import nltk
 
 
@@ -8,7 +8,7 @@ def embed_amazon_reviews(review_list):
     sentences = list()  # Initialize an empty list of sentences
 
     for review in review_list:
-        sentences = w2v.review_to_sentences(review, tokenizer, remove_stopwords=True)
+        sentences.append(w2v.review_to_sentences(review, tokenizer, remove_stopwords=True))
 
     return w2v.train_model(sentences)
 

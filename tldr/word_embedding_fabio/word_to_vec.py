@@ -21,7 +21,7 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
 
 
 # Keggle default
-def train_model(sentences, min_word_count=40, context=10):
+def train_model(sentences, min_word_count=10, context=10):
     """
 
     Parameters
