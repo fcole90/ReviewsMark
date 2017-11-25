@@ -3,7 +3,8 @@ I love CLI!
 """
 
 import tldr.scraper.amazon_review_retrieval as amazon
-import Summarizer as s
+from tldr.word_embedding import summarizer as s
+
 
 def cli_interface():
     print("""
@@ -14,11 +15,12 @@ def cli_interface():
 /_/ |_| \___/ |___//_/ \___/ |__/|__//____//_/  /_/ \__,_//_/   /_/|_|  
                                                                         
 <!--       _
-       .__(.)< (Please, paste the URL to the reviews!)
+       .__(.)< (Please, paste the URL of the reviews!)
         \___)   
  ~~~~~~~~~~~~~~~~~~-->""")
     url = input(">>> ")
     url = url.strip()
+    print("Downloading reviews..")
     reviews = amazon.get_all_reviews_in_all_pages(url, limit=25)
     # print("*{}*\n {}\n".format(review['Score'], review['Text']))
     prod_positives = [review['Text'] for review in reviews if review['Score'] == 5]

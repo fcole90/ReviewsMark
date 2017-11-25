@@ -1,5 +1,5 @@
-tldr/word_embedding_fabio/NLTK/*
-dataset/*
+tldr/word_embedding/NLTK/*
+datasets/*
 .idea/*
 
 # Byte-compiled / optimized / DLL files

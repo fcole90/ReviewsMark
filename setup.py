@@ -1,10 +1,10 @@
 from setuptools import setup
 setup(
-    name="tldr",
-    packages=["tldr"],
+    name="reviewsmark",
+    packages=["reviewsmark"],
     version="0.0.1.dev1",
     description="Amazon reviews summarisation engine and user interface.",
-    author="Hackaton Team",
+    author="Reviewsmark team",
     author_email="chose_an@email.com",
     url="https://github.com/MVytautas/tldr",
     download_url="https://github.com/MVytautas/tldr",
@@ -25,10 +25,11 @@ setup(
 Amazon reviews summarisation engine and user interface.
 """,
     install_requires=['bs4',
-                      'numpy',
                       'gensim',
                       'nltk',
+                      'numpy',
                       'pandas',
+                      'requests',
                       'sklearn'],
     python_requires='>=3.4'
 )
