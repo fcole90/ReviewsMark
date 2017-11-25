@@ -52,7 +52,7 @@ def get_all_reviews_in_all_pages(url, limit=20):
         reviews_ratings = [r.get_text("|", strip=True) for r in get_reviews_ratings(html_review)]
         reviews_texts = [r.get_text("|", strip=True) for r in get_reviews_text(html_review)]
         # print("{}, {}".format(len(reviews_ratings), len(reviews_texts)))
-        page_reviews = zip(reviews_ratings, reviews_texts)
+        page_reviews = [{'Text': text, 'Score': float(rating.split()[0])} for rating, text in zip(reviews_ratings, reviews_texts)]
         reviews.extend(page_reviews)
 
     return reviews

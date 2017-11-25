@@ -8,8 +8,8 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.neighbors import KNeighborsClassifier
 
-pos_model = Word2Vec.load("final_positive")
-neg_model = Word2Vec.load("final_negative")
+pos_model = Word2Vec.load("/home/fabio/development/hackaton/tldr/final_positive")
+neg_model = Word2Vec.load("/home/fabio/development/hackaton/tldr/final_negative")
 
 
 clean = lambda s: re.sub('['+string.punctuation.replace('+','').replace('/','')+']', '', s)
@@ -69,21 +69,22 @@ def get_summary(positive_sentences, negative_sentences, num_clusters = 3):
     neg_neigh.fit(s2, neg_kmeans.labels_)     
     
     print("Most significant words")
-    print("Positives")
+    print("--Positives--")
     for i in pos_centers:
         print(vocab[pos_neigh.kneighbors(i.reshape(1,-1), return_distance=False)[0,0]])
-    print("Negatives")
+    print("\n\n")
+    print("--Negatives--")
     for i in neg_centers:
         print(vocab[neg_neigh.kneighbors(i.reshape(1,-1), return_distance=False)[0,0]])
 
 
+if __name__ == "__main__":
+    #Example
+    df = pd.read_csv("Reviews.csv")
 
-#Example
-df = pd.read_csv("Reviews.csv")
+    ex_product = df[['Text', 'Score']][df['ProductId'] == "B007JFMH8M"]
 
-ex_product = df[['Text', 'Score']][df['ProductId'] == "B007JFMH8M"]
+    prod_positives = ex_product['Text'][ex_product['Score'] == 5].as_matrix()
+    prod_negatives = ex_product['Text'][ex_product['Score'] <= 2].as_matrix()
 
-prod_positives = ex_product['Text'][ex_product['Score'] == 5].as_matrix()
-prod_negatives = ex_product['Text'][ex_product['Score'] <= 2].as_matrix()
-
-get_summary(prod_positives, prod_negatives)
+    get_summary(prod_positives, prod_negatives)
