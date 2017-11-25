@@ -8,10 +8,12 @@ def embed_amazon_reviews(review_list):
     sentences = list()  # Initialize an empty list of sentences
 
     for review in review_list:
-        sentences = w2v.review_to_sentences(review, tokenizer)
+        sentences = w2v.review_to_sentences(review, tokenizer, remove_stopwords=True)
 
-    w2v.train_model(sentences)
+    return w2v.train_model(sentences)
 
 
 if __name__ == "__main__":
-    embed_amazon_reviews(['dummy text!'])
+    import pandas as pd
+    food = pd.read_csv('dataset/amazon_fine_food/Reviews.csv')
+    embed_amazon_reviews(food['Text'])

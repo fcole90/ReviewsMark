@@ -18,11 +18,11 @@ def get_soup(url):
     '''
     # sleep(random.randrange(1,3)) # prevent too many requests at the same time
     try:
-        content = requests.get(url)
+        content = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'})
     except:
         raise Exception('UrlOpenFail', url)
 
-    soup = BeautifulSoup(content, "html.parser")
+    soup = BeautifulSoup(content.text, "lxml")
     return soup
 
 def get_review_url(main_page):
