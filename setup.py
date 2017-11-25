@@ -4,8 +4,16 @@ setup(
     packages=["reviewsmark"],
     version="0.0.1.dev1",
     description="Amazon reviews summarisation engine and user interface.",
-    author="Reviewsmark team",
-    author_email="chose_an@email.com",
+    author="Carles Balsellis Rodas <balsells96@gmail.com>, "
+           "Fabio Colella <fabio.colella@aalto.fi>, "
+           "Pau Batlle Franch <paubatlle11@outlook.com>, "
+           "Saihan Li <saihan.li@aalto.fi>, "
+           "Vytautas Mikalainis <vmikalainis@gmail.com>",
+    author_email="balsells96@gmail.com,"
+                 "fabio.colella@aalto.fi,"
+                 "paubatlle11@outlook.com,"
+                 "saihan.li@aalto.fi,"
+                 "vmikalainis@gmail.com",
     url="https://github.com/MVytautas/tldr",
     download_url="https://github.com/MVytautas/tldr",
     keywords=["amazon", "reviews", "summary", "hackaton"],
