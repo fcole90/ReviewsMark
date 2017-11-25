@@ -1,14 +1,12 @@
 from bs4 import BeautifulSoup, Comment
 import re, itertools, random
-import urllib
+import requests
 from datetime import datetime
 
 #import generate_ngrams
 import difflib
 
 from time import sleep
-
-AMAZON_ADV_SEARCH_BASE_URL = 'http://www.amazon.com/gp/search/ref=sr_adv_b/'
 
 class Review:
     ''' simple class to hold together properties'''
@@ -20,7 +18,7 @@ def get_soup(url):
     '''
     # sleep(random.randrange(1,3)) # prevent too many requests at the same time
     try:
-        content = urllib.urlopen(url).read()
+        content = requests.get(url)
     except:
         raise Exception('UrlOpenFail', url)
 
@@ -43,8 +41,7 @@ def get_review_url(main_page):
         if len(all_a):
             review_url = all_a[-1].attrs['href']
         else:
-            print
-            "No reviews found"
+            print("No reviews found")
             return False
     return review_url
 
@@ -133,7 +130,7 @@ def pull_out_reviews(review_page):
                         review_text += t
 
                 review.text = review_text.strip()
-                review.word_count = sum([len(s) for s in generate_ngrams.get_tokenized_sentences(review.text)])
+                #review.word_count = sum([len(s) for s in generate_ngrams.get_tokenized_sentences(review.text)])
 
             # TODO: save token length
             reviews.append(review)
