@@ -24,6 +24,11 @@ setup(
     long_description="""\
 Amazon reviews summarisation engine and user interface.
 """,
-    install_requires=['numpy'],
+    install_requires=['bs4',
+                      'numpy',
+                      'gensim',
+                      'nltk',
+                      'pandas',
+                      'sklearn'],
     python_requires='>=3.4'
 )

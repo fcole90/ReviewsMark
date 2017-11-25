@@ -1,3 +1,6 @@
+tldr/word_embedding/NLTK/*
+dataset/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
