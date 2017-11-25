@@ -11,18 +11,23 @@ def get_soup(url):
     return soup
 
 def get_reviews_html(soup_page):
-    return soup_page.find_all('div', class_="a-section review")
+    sp = soup_page.find_all('div', class_="a-section review")
+    return sp
 
-def get_reviews_ratings(soup_page):
-    return soup_page.find_all('span', class_="a-icon-alt")
 
-def get_reviews_text(soup_page):
-    return soup_page.find_all('span', class_="a-size-base review-text")
+def get_reviews_ratings(soup_page_list):
+    return [el.find('i', class_="review-rating") for el in soup_page_list]
+
+
+def get_reviews_text(soup_page_list):
+    return [el.find('span', class_="review-text") for el in soup_page_list]
+
 
 def get_last_page_number(soup_page):
-    ellippsis_button = soup_page.find_all('li', class_="a-disabled page-ellipsis")[0]
-    last_page_button = ellippsis_button.find_next_sibling()
+    ellipsis_button = soup_page.find_all('li', class_="a-disabled page-ellipsis")[0]
+    last_page_button = ellipsis_button.find_next_sibling()
     return last_page_button.get_text()
+
 
 def get_all_reviews_in_all_pages(url, limit=20):
 
@@ -41,10 +46,12 @@ def get_all_reviews_in_all_pages(url, limit=20):
 
     # Download the review of all the pages
     reviews = list()
-    for page in pages:
-        reviews_texts = [r.get_text("|", strip=True) for r in get_reviews_text(page)]
-        reviews_ratings = [r.get_text("|", strip=True) for r in get_reviews_ratings(page)]
-
+    for i, page in enumerate(pages):
+        # print("Page {}".format(i+1))
+        html_review = get_reviews_html(page)
+        reviews_ratings = [r.get_text("|", strip=True) for r in get_reviews_ratings(html_review)]
+        reviews_texts = [r.get_text("|", strip=True) for r in get_reviews_text(html_review)]
+        # print("{}, {}".format(len(reviews_ratings), len(reviews_texts)))
         page_reviews = zip(reviews_ratings, reviews_texts)
         reviews.extend(page_reviews)
 
