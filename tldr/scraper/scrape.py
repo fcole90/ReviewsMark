@@ -68,3 +68,77 @@ def get_num_each_rating(review_page):
         return num_reviews_by_star
     except:
         raise Exception('NoRatingCountsFound')
+
+def pull_out_reviews(review_page):
+    '''
+    This method is likely to break over time as it relies on very
+    specific structure for the review
+    Particularly, it depends on the review being embedded between
+    "This review is from .." and "Help other customers .. "
+    '''
+    try:
+        helpfulness_regex = re.compile(r'^\s*(\d+)\s+of\s+(\d+) people found the following review helpful\s*$')
+        reviewer_href_regex = re.compile(r'/gp/pdp/profile/([^/])+')
+
+        reviews = []
+
+        # get the part of the page wth the reviews
+        product_reviews_section = review_page.find(id="productReviews").find('td')
+
+        boundaries = product_reviews_section.find_all(text=lambda text:isinstance(text, Comment))
+        # dates = product_reviews_section.find_all('nobr')
+
+        if (boundaries):
+            for boundary in boundaries:
+                review = Review()
+                # get metadata
+
+                date = boundary.find_next('nobr')
+                try:
+                    # parse the date string
+                    review.date = datetime.strptime(date.text, '%B %d, %Y').date()
+                except:
+                    raise Exception('CouldNotParseDate')
+
+                reviewer = boundary.find_next('a', href=reviewer_href_regex)
+                reviewer_href = reviewer.attrs['href']
+                # reviewer = (reviewer_id, reviewer_name, reviewer_url)
+                review.reviewer_id = reviewer_href.split('/')[-1]
+                review.reviewer_username = reviewer.text.strip('"')
+                review.reviewer_url = reviewer_href
+
+                texts = boundary.find_all_next(text=True)
+                start = False
+                skip = False
+                review_text = ''
+                for t in texts:
+                    t = t.strip()
+                    if start and t.startswith('Help other customers'):
+                        break
+
+                    helpfulness_match = helpfulness_regex.match(t)
+                    if helpfulness_match:
+                        helpfulness = (int(helpfulness_match.group(1)), int(helpfulness_match.group(2)))
+
+                    if t.startswith('This review is from'):
+                        start = True
+                        # advance one more (the title)
+                        skip = True
+                        continue
+                    if not start or skip:
+                        skip = False
+                        continue
+
+                    if len(t):
+                        review_text += t
+
+                review.text = review_text.strip()
+                review.word_count = sum([len(s) for s in generate_ngrams.get_tokenized_sentences(review.text)])
+
+            # TODO: save token length
+            reviews.append(review)
+            helpfulness = False
+
+        return reviews
+    except:
+        raise Exception('ReviewsNotFound')
