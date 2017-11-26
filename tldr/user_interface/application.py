@@ -22,7 +22,7 @@ def review():
     soup = amazon.get_soup(url)
     name = amazon.get_title(soup)
     rating = amazon.get_average_rating(soup)
-    reviews = amazon.get_all_reviews_in_all_pages(soup, url, limit=10)
+    reviews = amazon.get_all_reviews_in_all_pages(soup, url, limit=20)
     # print("*{}*\n {}\n".format(review['Score'], review['Text']))
     prod_positives = [review['Text'] for review in reviews if review['Score'] == 5]
     prod_negatives = [review['Text'] for review in reviews if review['Score'] <= 2]

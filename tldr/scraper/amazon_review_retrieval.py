@@ -45,7 +45,7 @@ def get_all_reviews_in_all_pages(first_page, url, limit=20):
     flatten = lambda l: [item for sublist in l for item in sublist]
 
     # Get the last page as an integer
-    last_page = int(get_last_page_number(first_page))
+    last_page = int(get_last_page_number(first_page).replace(",", ""))
 
     # List all the pages from 1 to last page
     pages = list()

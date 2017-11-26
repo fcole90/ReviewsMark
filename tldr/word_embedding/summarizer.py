@@ -79,6 +79,7 @@ def get_summary(positive_sentences, negative_sentences, num_clusters=3):
 
     stop = set(stopwords.words('english'))
     stop.add('/br')
+    stop.add('retarded')
     print(stop)
 
 
