@@ -16,29 +16,77 @@
   <body>
 
     <div class="site-wrapper">
-
       <div class="site-wrapper-inner">
-
         <div class="cover-container">
-
           <header class="masthead clearfix">
             <div class="inner">
               <h1 class="masthead-brand">ReviewsMark</h1>
             </div>
           </header>
-
-          <h1> The URL is {{ url }}</h1>
-
+          <div class="data">
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-4">
+                <h2>{{ data[0] }}</h2>              
+              </div>
+              <div class="col-lg-2"></div>
+              <div class="col-lg-2"></div>
+              <div class="col-lg-2"></div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-4">
+                <h2 id="stars"></h2>              
+              </div>
+              <div class="col-lg-2"></div>
+              <div class="col-lg-2"></div>
+              <div class="col-lg-2"></div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-8">
+                <p>A list of pros and cons has been generated from the users' reviews.<p>              
+              </div>
+              <div class="col-lg-2"></div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-4">
+                <h2>Pros</h2>
+                <ul>
+                  {% for pros in data[2] %}
+                  <li> {{ pros }} </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="col-lg-4">
+                <h2>Cons</h2>
+                <ul>
+                  {% for cons in data[3] %}
+                  <li> {{ cons }} </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="col-lg-2"></div>
+            </div>
+          </div>
           <footer class="mastfoot">
             <div class="inner">
               <p>HackJunction - 2017</p>
             </div>
           </footer>
-
         </div>
-
       </div>
-
     </div>
+    <script>
+    var text = "Rating: ";
+    var i;
+    var calif = {{ data[1] }};
+    for (i = 0; i < 5; i++) {
+        if (i < calif) text += "&#x2605;";
+        else text += "&#9734";
+    }
+    document.getElementById("stars").innerHTML = text;
+    </script>
     </body>
 </html>

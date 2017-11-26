@@ -13,8 +13,17 @@ def review():
 	url_for('static', filename='css/bootstrap.min.css', _external=True)
 	url_for('static', filename='css/home.css', _external=True)
 	url = request.args.get('url')
-	print(url)
-	return render_template('review.html', url = url)
+	## Here we should do the scrapping
+
+	## Here we obtain the pros and cons
+
+	## Harcoded sample
+	name = "3D-Printer"
+	calification = 4
+	pros = ["BUENO", "bonito", "barato"]
+	cons = ["malo", "malito", "caro"]
+
+	return render_template('review.html', data = [name,calification,pros,cons])
 
 
 @app.errorhandler(404)
