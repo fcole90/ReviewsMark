@@ -10,6 +10,16 @@ def get_soup(url):
     soup = BeautifulSoup(content.text, "lxml")
     return soup
 
+def get_title(soup_page):
+    title = soup_page.find_all('title')[0].get_text()
+    return title.lstrip("Amazon.com: Customer reviews: ")
+
+def get_average_rating(soup_page):
+    average = soup_page.find_all('span', class_="arp-rating-out-of-text")[0].get_text()
+    return int(float(average.rstrip(" out of 5 stars")))
+
+
+
 def get_reviews_html(soup_page):
     sp = soup_page.find_all('div', class_="a-section review")
     return sp
@@ -29,12 +39,10 @@ def get_last_page_number(soup_page):
     return last_page_button.get_text()
 
 
-def get_all_reviews_in_all_pages(url, limit=20):
+def get_all_reviews_in_all_pages(first_page, url, limit=20):
 
     # Lambda function to flatten a list (list of list -> list)
     flatten = lambda l: [item for sublist in l for item in sublist]
-
-    first_page = get_soup(url)
 
     # Get the last page as an integer
     last_page = int(get_last_page_number(first_page))

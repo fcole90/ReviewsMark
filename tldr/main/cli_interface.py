@@ -21,7 +21,8 @@ def cli_interface():
     url = input(">>> ")
     url = url.strip()
     print("Downloading reviews..")
-    reviews = amazon.get_all_reviews_in_all_pages(url, limit=10)
+    soup = amazon.get_soup(url)
+    reviews = amazon.get_all_reviews_in_all_pages(soup, url, limit=10)
     # print("*{}*\n {}\n".format(review['Score'], review['Text']))
     prod_positives = [review['Text'] for review in reviews if review['Score'] == 5]
     prod_negatives = [review['Text'] for review in reviews if review['Score'] <= 2]

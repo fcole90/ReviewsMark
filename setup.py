@@ -33,6 +33,7 @@ setup(
 Amazon reviews summarisation engine and user interface.
 """,
     install_requires=['bs4',
+                      'flask',
                       'gensim',
                       'nltk',
                       'numpy',
